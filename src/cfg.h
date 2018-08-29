@@ -106,7 +106,6 @@ float cfg_float(const char* name, float def_val)
 
 int cfg_int(const char* name, int def_val)
 {
-	int fd = 0;
 	FILE* f = NULL;
 	int value = def_val;
 
@@ -124,6 +123,36 @@ int cfg_int(const char* name, int def_val)
 		case 2: // file exists, read
 			fscanf(f, "%d", &value);
 			break;
+	}
+
+	if (f) fclose(f);
+	return value;
+}
+
+
+char* cfg_str(const char* name, char* def_val)
+{
+	FILE* f = NULL;
+	char* value = def_val;
+
+	switch (_cfg_open_or_create(name, &f))
+	{
+		case -EACCES:	 
+		case -ENOENT:
+		case -4:
+		case -5:
+			value = def_val;
+			break;
+		case 1: // file created, defaults must be written
+			fprintf(f, "%s", value);
+			break;
+		case 2: // file exists, read
+		{
+			static char buf[256]; 
+			fread(buf, 1, sizeof(buf), f);
+			value = buf;
+		}
+		break;
 	}
 
 	if (f) fclose(f);
