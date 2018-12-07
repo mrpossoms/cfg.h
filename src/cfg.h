@@ -151,6 +151,11 @@ char* cfg_str(const char* name, char* def_val)
 			static char buf[256];
 			bzero(buf, sizeof(buf)); 
 			fread(buf, 1, sizeof(buf), f);
+			for (int i = strnlen(buf, 256); i--;)
+			{
+				if (isspace(buf[i])) { buf[i] = '\0'; }
+				else { break; }
+			}
 			value = buf;
 		}
 		break;
