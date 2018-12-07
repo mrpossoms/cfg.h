@@ -148,7 +148,8 @@ char* cfg_str(const char* name, char* def_val)
 			break;
 		case 2: // file exists, read
 		{
-			static char buf[256]; 
+			static char buf[256];
+			bzero(buf, sizeof(buf)); 
 			fread(buf, 1, sizeof(buf), f);
 			value = buf;
 		}
@@ -158,7 +159,5 @@ char* cfg_str(const char* name, char* def_val)
 	if (f) fclose(f);
 	return value;
 }
-
-//char* cfg_str(const char* name,   const char* def_val);
 
 #endif
