@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <ctype.h>
 #include <errno.h>
 
 const char* BASE_PATH;
