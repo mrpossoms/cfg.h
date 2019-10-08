@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <strings.h>
 #include <ctype.h>
 #include <errno.h>
 
@@ -150,7 +151,7 @@ char* cfg_str(const char* name, char* def_val)
 		case 2: // file exists, read
 		{
 			static char buf[256];
-			bzero(buf, sizeof(buf)); 
+			memset(buf, 0, sizeof(buf)); 
 			fread(buf, 1, sizeof(buf), f);
 			for (int i = strnlen(buf, 256); i--;)
 			{
